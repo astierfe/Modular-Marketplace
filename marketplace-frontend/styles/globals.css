@@ -1,0 +1,394 @@
+/* styles/globals.css - Composants CSS Réutilisables */
+
+/* ============================================
+   CONTAINERS & LAYOUTS
+   ============================================ */
+
+.page-container {
+  min-height: 100vh;
+  background-color: #F9FAFB;
+}
+
+.dark .page-container {
+  background-color: #111827;
+}
+
+.page-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.centered-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.page-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.dark .page-title {
+  color: #F9FAFB;
+}
+
+.page-subtitle {
+  color: #6B7280;
+}
+
+.dark .page-subtitle {
+  color: #9CA3AF;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.dark .section-title {
+  color: #F9FAFB;
+}
+
+.gradient-title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #2563EB, #9333EA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (min-width: 768px) {
+  .gradient-title {
+    font-size: 3rem;
+  }
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #2563EB;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #1D4ED8;
+}
+
+.btn-warning {
+  background-color: #D97706;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+}
+
+.btn-warning:hover:not(:disabled) {
+  background-color: #B45309;
+}
+
+.btn-success {
+  background-color: #16A34A;
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #15803D;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.dark .card {
+  background: #1F2937;
+}
+
+.card-shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+/* ============================================
+   STATS COMPONENTS
+   ============================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .stats-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stats-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .stat-value {
+    font-size: 1.875rem;
+  }
+}
+
+.stat-value--blue {
+  color: #2563EB;
+}
+
+.stat-value--purple {
+  color: #9333EA;
+}
+
+.stat-value--green {
+  color: #16A34A;
+}
+
+.stat-value--orange {
+  color: #EA580C;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-top: 0.25rem;
+}
+
+.dark .stat-label {
+  color: #9CA3AF;
+}
+
+/* ============================================
+   EMPTY STATES
+   ============================================ */
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: white;
+  border-radius: 0.75rem;
+}
+
+.dark .empty-state {
+  background: #1F2937;
+}
+
+.empty-state-icon {
+  font-size: 2rem;
+  color: #9CA3AF;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+}
+
+.dark .empty-state-title {
+  color: #9CA3AF;
+}
+
+.empty-state-message {
+  color: #6B7280;
+}
+
+.dark .empty-state-message {
+  color: #6B7280;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+.loading-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 4px solid #2563EB;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-container {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.loading-text {
+  margin-top: 1rem;
+  color: #6B7280;
+}
+
+.dark .loading-text {
+  color: #9CA3AF;
+}
+
+/* ============================================
+   GRIDS
+   ============================================ */
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
+
+.text-secondary {
+  color: #6B7280;
+}
+
+.dark .text-secondary {
+  color: #9CA3AF;
+}
+
+.text-muted {
+  color: #9CA3AF;
+}
+
+.dark .text-muted {
+  color: #6B7280;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ============================================
+   SPACING UTILITIES
+   ============================================ */
+
+.section-spacing {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header-spacing {
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   HEADER COMPONENTS
+   ============================================ */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-header-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827;
+}
+
+.dark .page-header-title {
+  color: #F9FAFB;
+}
+
+/* ============================================
+   NOT CONNECTED STATE
+   ============================================ */
+
+.not-connected-message {
+  font-size: 1.25rem;
+  color: #6B7280;
+}
+
+.dark .not-connected-message {
+  color: #9CA3AF;
+}

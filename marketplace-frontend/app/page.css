@@ -1,0 +1,29 @@
+/* app/page.css - Styles spécifiques Homepage uniquement */
+
+/* Background gradient unique à la homepage */
+.home-gradient-bg {
+  background: linear-gradient(to bottom right, #EFF6FF, #F3E8FF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .home-gradient-bg {
+  background: linear-gradient(to bottom right, #111827, #1F2937);
+}
+
+/* Icon size spécifique homepage */
+.home-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* Titre avec gradient spécifique */
+.home-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  background: linear-gradient(to right, #2563EB, #9333EA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

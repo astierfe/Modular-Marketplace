@@ -1,0 +1,63 @@
+/* app/my-nfts/mynfts.css - Styles spécifiques My NFTs */
+
+/* Approval Card - Style jaune warning unique à cette page */
+.approval-card {
+  background-color: #FFFBEB;
+  border: 1px solid #FCD34D;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.dark .approval-card {
+  background-color: rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.8);
+}
+
+.approval-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #92400E;
+  margin-bottom: 0.5rem;
+}
+
+.dark .approval-title {
+  color: #FCD34D;
+}
+
+.approval-message {
+  color: #B45309;
+  margin-bottom: 1rem;
+}
+
+.dark .approval-message {
+  color: #FDE68A;
+}
+
+/* Collection info box - Spécifique à my-nfts */
+.collection-info {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.dark .collection-info {
+  background: #1F2937;
+}
+
+.collection-info-text {
+  color: #6B7280;
+}
+
+.dark .collection-info-text {
+  color: #9CA3AF;
+}
+
+.collection-info-note {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-top: 0.5rem;
+}
+
+.dark .collection-info-note {
+  color: #6B7280;
+}
