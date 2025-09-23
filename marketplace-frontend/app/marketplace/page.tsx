@@ -1,14 +1,42 @@
-// app/marketplace/page.tsx - Page Marketplace refactorisée
+// app/marketplace/page.tsx - Refactorisé + Bundle Optimized + Auto-refetch
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
-import { useListings, useUserMarketplaceData } from '../../hooks'
-import { NFTGrid } from '../../components/marketplace/NFTGrid'
-import { UserStats } from '../../components/marketplace/UserStats'
+import dynamic from 'next/dynamic'
+import { useListings, useUserMarketplaceData } from '@/hooks'
 import { MarketplaceHeader } from '../../components/marketplace/MarketplaceHeader'
 import '../../styles/globals.css'
 import './marketplace.css'
+
+// ✅ Dynamic imports for heavy components (lazy loading)
+const NFTGrid = dynamic(
+  () => import('../../components/marketplace/NFTGrid').then(mod => ({ default: mod.NFTGrid })),
+  {
+    loading: () => (
+      <div className="responsive-grid">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="skeleton-card skeleton">
+            <div className="skeleton-image" />
+            <div className="skeleton-content">
+              <div className="skeleton-line skeleton-line--medium" />
+              <div className="skeleton-line skeleton-line--short" />
+            </div>
+          </div>
+        ))}
+      </div>
+    ),
+    ssr: false,
+  }
+)
+
+const UserStats = dynamic(
+  () => import('../../components/marketplace/UserStats').then(mod => ({ default: mod.UserStats })),
+  { 
+    ssr: false,
+    loading: () => <div className="skeleton-card skeleton" style={{ height: '150px' }} />
+  }
+)
 
 export default function MarketplacePage() {
   const [mounted, setMounted] = useState(false)
@@ -22,6 +50,13 @@ export default function MarketplacePage() {
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // ✅ AJOUT : Refetch automatique quand on arrive sur la page
+  useEffect(() => {
+    if (mounted && isConnected) {
+      refetch()
+    }
+  }, [mounted, isConnected, refetch])
 
   if (!mounted) return null
 
@@ -71,7 +106,7 @@ export default function MarketplacePage() {
           </div>
         )}
 
-        {/* User Stats Card */}
+        {/* User Stats Card - Lazy loaded */}
         {isConnected && (userData.hasProceeds || userData.activeListingsCount > 0) && (
           <UserStats userData={userData} />
         )}
@@ -87,6 +122,7 @@ export default function MarketplacePage() {
             </button>
           </div>
 
+          {/* NFT Grid - Lazy loaded */}
           <NFTGrid listingIds={listingIds} isLoading={isLoading} />
 
           {!isLoading && listingIds.length === 0 && (

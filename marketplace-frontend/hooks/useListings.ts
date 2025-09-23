@@ -4,7 +4,7 @@
 import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { getContractConfigs, marketplaceHelpers } from '@/lib/contracts'
 import { EnrichedListing, MarketplaceListing, ListingFilters } from '@/lib/types/marketplaceTypes'
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { formatEther } from 'viem'
 
 export function useListings() {
@@ -31,7 +31,7 @@ export function useListings() {
       enabled: !!contracts,
       refetchInterval: 10000, // Rafraîchir toutes les 10s
     }
-  })
+  }) as { data: readonly bigint[] | undefined; isLoading: boolean; refetch: () => Promise<any> }
 
   // Récupérer les listings de l'utilisateur
   const { 
@@ -46,7 +46,7 @@ export function useListings() {
       enabled: !!contracts && !!address,
       refetchInterval: 10000,
     }
-  })
+  }) as { data: readonly bigint[] | undefined; refetch: () => Promise<any> }
 
   // Récupérer les détails d'un listing
   const useListingDetails = (tokenId: bigint) => {
@@ -138,7 +138,7 @@ export function useListings() {
     query: {
       enabled: !!contracts && !!address,
     }
-  })
+  }) as { data: bigint | undefined }
 
   // Calculer les statistiques
   const stats = useMemo(() => {
@@ -162,10 +162,10 @@ export function useListings() {
     })
   }, [])
 
-  const refetchAll = useCallback(() => {
-    refetchListingIds()
+  const refetchAll = useCallback(async () => {
+    await refetchListingIds()
     if (address) {
-      refetchUserListings()
+      await refetchUserListings()
     }
   }, [refetchListingIds, refetchUserListings, address])
 
@@ -197,7 +197,11 @@ export function useListingById(tokenId: number) {
   const contracts = chainId === 11155111 ? getContractConfigs(11155111) : null
 
   // Récupérer le listing
-  const { data: listing, isLoading: isLoadingListing } = useReadContract({
+  const { 
+    data: listing, 
+    isLoading: isLoadingListing,
+    refetch: refetchListing
+  } = useReadContract({
     address: contracts?.marketplace.address,
     abi: contracts?.marketplace.abi,
     functionName: 'getListing',
@@ -205,10 +209,14 @@ export function useListingById(tokenId: number) {
     query: {
       enabled: !!contracts,
     }
-  })
+  }) as { data: MarketplaceListing | undefined; isLoading: boolean; refetch: () => Promise<any> }
 
   // Récupérer le tokenURI
-  const { data: tokenURI, isLoading: isLoadingURI } = useReadContract({
+  const { 
+    data: tokenURI, 
+    isLoading: isLoadingURI,
+    refetch: refetchURI
+  } = useReadContract({
     address: contracts?.nft.address,
     abi: contracts?.nft.abi,
     functionName: 'tokenURI',
@@ -216,7 +224,7 @@ export function useListingById(tokenId: number) {
     query: {
       enabled: !!contracts,
     }
-  })
+  }) as { data: string | undefined; isLoading: boolean; refetch: () => Promise<any> }
 
   // Enrichir le listing
   const enrichedListing = useMemo(() => {
@@ -238,8 +246,17 @@ export function useListingById(tokenId: number) {
     } as EnrichedListing
   }, [listing, tokenURI])
 
+  // Fonction refetch combinée
+  const refetch = useCallback(async () => {
+    await Promise.all([
+      refetchListing(),
+      refetchURI()
+    ])
+  }, [refetchListing, refetchURI])
+
   return {
     listing: enrichedListing,
     isLoading: isLoadingListing || isLoadingURI,
+    refetch,
   }
 }

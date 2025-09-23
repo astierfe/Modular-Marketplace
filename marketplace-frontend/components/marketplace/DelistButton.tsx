@@ -1,14 +1,17 @@
-// components/marketplace/DelistButton.tsx - Refactorisé
+// components/marketplace/DelistButton.tsx - Refactorisé avec callback
 'use client'
 
 import { useMarketplace } from '@/hooks'
 import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface DelistButtonProps {
   tokenId: number
+  onSuccess?: () => void  // ✅ AJOUT callback
 }
 
-export function DelistButton({ tokenId }: DelistButtonProps) {
+export function DelistButton({ tokenId, onSuccess }: DelistButtonProps) {
+  const queryClient = useQueryClient()
   const { delistItem, isPending, isConfirmed } = useMarketplace()
 
   const handleDelist = async () => {
@@ -22,10 +25,14 @@ export function DelistButton({ tokenId }: DelistButtonProps) {
   useEffect(() => {
     if (isConfirmed) {
       setTimeout(() => {
-        window.location.reload()
+        queryClient.invalidateQueries({ queryKey: ['listings'] })
+        queryClient.invalidateQueries({ queryKey: ['userListings'] })
+        queryClient.invalidateQueries({ queryKey: ['userBalance'] })
+        
+        onSuccess?.()  // ✅ Appeler le callback
       }, 2000)
     }
-  }, [isConfirmed])
+  }, [isConfirmed, queryClient, onSuccess])
 
   if (isConfirmed) {
     return (

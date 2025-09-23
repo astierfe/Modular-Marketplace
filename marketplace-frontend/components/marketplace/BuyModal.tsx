@@ -4,6 +4,7 @@
 import { useMarketplace } from '@/hooks'
 import { EnrichedListing } from '@/lib/types/marketplaceTypes'
 import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import './marketplace-components.css'
 
 interface BuyModalProps {
@@ -13,6 +14,7 @@ interface BuyModalProps {
 }
 
 export function BuyModal({ tokenId, listing, onClose }: BuyModalProps) {
+  const queryClient = useQueryClient()
   const { buyItem, isPending, isConfirmed, error } = useMarketplace()
 
   const handleBuy = async () => {
@@ -26,11 +28,15 @@ export function BuyModal({ tokenId, listing, onClose }: BuyModalProps) {
   useEffect(() => {
     if (isConfirmed) {
       setTimeout(() => {
+        // ✅ FIXED: Invalidate queries instead of reload
+        queryClient.invalidateQueries({ queryKey: ['listings'] })
+        queryClient.invalidateQueries({ queryKey: ['userListings'] })
+        queryClient.invalidateQueries({ queryKey: ['userBalance'] })
+        queryClient.invalidateQueries({ queryKey: ['userProceeds'] })
         onClose()
-        window.location.reload()
       }, 2000)
     }
-  }, [isConfirmed, onClose])
+  }, [isConfirmed, onClose, queryClient])
 
   return (
     <div className="modal-overlay">

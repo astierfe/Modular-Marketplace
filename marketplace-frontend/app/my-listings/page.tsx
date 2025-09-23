@@ -1,23 +1,47 @@
-// app/my-listings/page.tsx - Page My Listings refactorisée
+// app/my-listings/page.tsx - RefactorisÃ© + Bundle Optimized + Refresh
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
+import dynamic from 'next/dynamic'
 import { useListings, useUserMarketplaceData } from '@/hooks'
 import { MarketplaceHeader } from '../../components/marketplace/MarketplaceHeader'
-import { NFTCard } from '../../components/marketplace/NFTCard'
 import '../../styles/globals.css'
 import './mylistings.css'
+
+// âœ… Dynamic import for NFTCard (lazy loading)
+const NFTCard = dynamic(
+  () => import('../../components/marketplace/NFTCard').then(mod => ({ default: mod.NFTCard })),
+  {
+    loading: () => (
+      <div className="skeleton-card skeleton">
+        <div className="skeleton-image" />
+        <div className="skeleton-content">
+          <div className="skeleton-line skeleton-line--medium" />
+          <div className="skeleton-line skeleton-line--short" />
+        </div>
+      </div>
+    ),
+    ssr: false,
+  }
+)
 
 export default function MyListingsPage() {
   const [mounted, setMounted] = useState(false)
   const { isConnected, address } = useAccount()
-  const { userListingIds = [] } = useListings()
+  const { userListingIds = [], refetch } = useListings()  // ✅ AJOUT refetch
   const userData = useUserMarketplaceData()
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // ✅ AJOUT : Refetch automatique quand on arrive sur la page
+  useEffect(() => {
+    if (mounted && isConnected) {
+      refetch()
+    }
+  }, [mounted, isConnected, refetch])
 
   if (!mounted) return null
 
@@ -42,10 +66,17 @@ export default function MyListingsPage() {
         
         {/* Header */}
         <div className="header-spacing">
-          <h1 className="page-title">My Listings</h1>
-          <p className="page-subtitle">
-            NFTs you have listed for sale
-          </p>
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">My Listings</h1>
+              <p className="page-subtitle">
+                NFTs you have listed for sale
+              </p>
+            </div>
+            <button onClick={refetch} className="btn btn-primary">
+              🔄 Refresh
+            </button>
+          </div>
         </div>
 
         {/* Stats */}

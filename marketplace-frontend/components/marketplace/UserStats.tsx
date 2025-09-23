@@ -3,6 +3,7 @@
 
 import { useMarketplace } from '@/hooks'
 import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import './marketplace-components.css'
 
 interface UserStatsProps {
@@ -14,6 +15,7 @@ interface UserStatsProps {
 }
 
 export function UserStats({ userData }: UserStatsProps) {
+  const queryClient = useQueryClient()
   const { withdrawProceeds, isPending, isConfirmed } = useMarketplace()
 
   const handleWithdraw = async () => {
@@ -27,10 +29,13 @@ export function UserStats({ userData }: UserStatsProps) {
   useEffect(() => {
     if (isConfirmed) {
       setTimeout(() => {
-        window.location.reload()
+        // ✅ FIXED: Invalidate queries instead of reload
+        queryClient.invalidateQueries({ queryKey: ['userProceeds'] })
+        queryClient.invalidateQueries({ queryKey: ['userBalance'] })
+        queryClient.invalidateQueries({ queryKey: ['userListings'] })
       }, 2000)
     }
-  }, [isConfirmed])
+  }, [isConfirmed, queryClient])
 
   return (
     <div className="user-stats-card">

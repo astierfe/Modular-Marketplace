@@ -1,23 +1,35 @@
-// app/my-nfts/page.tsx - Page My NFTs refactorisée
+// app/my-nfts/page.tsx - Version propre après étape 2
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
-import { useUserMarketplaceData, useMarketplaceApproval } from '@/hooks'
+import { useUserMarketplaceData, useMarketplaceApproval, useOwnedTokens, useListings } from '@/hooks'
 import { MarketplaceHeader } from '../../components/marketplace/MarketplaceHeader'
-import { ApprovalState } from '@/lib/types/marketplaceTypes'
+import { NFTOwnerCard } from '../../components/marketplace/NFTOwnerCard'
 import '../../styles/globals.css'
 import './mynfts.css'
 
 export default function MyNFTsPage() {
   const [mounted, setMounted] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0)  // ✅ AJOUT pour forcer re-render
   const { isConnected, address } = useAccount()
   const userData = useUserMarketplaceData()
   const { isApproved, approve, isApproving } = useMarketplaceApproval()
+  const { tokenIds, isLoading: isLoadingTokens, refetch: refetchTokens } = useOwnedTokens()
+  const { refetch: refetchListings } = useListings()  // ✅ AJOUT pour refetch les listings
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // ✅ Refetch automatique quand on arrive sur la page
+  useEffect(() => {
+    if (mounted && isConnected) {
+      refetchTokens()
+      refetchListings()
+      setRefreshKey(prev => prev + 1)  // ✅ Force re-render des NFTOwnerCard
+    }
+  }, [mounted, isConnected, refetchTokens, refetchListings])
 
   if (!mounted) return null
 
@@ -42,10 +54,25 @@ export default function MyNFTsPage() {
         
         {/* Header */}
         <div className="header-spacing">
-          <h1 className="page-title">My NFTs</h1>
-          <p className="page-subtitle">
-            NFTs owned by {address?.slice(0, 6)}...{address?.slice(-4)}
-          </p>
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">My NFTs</h1>
+              <p className="page-subtitle">
+                NFTs owned by {address?.slice(0, 6)}...{address?.slice(-4)}
+              </p>
+            </div>
+            <button 
+              onClick={() => {
+                // Refresh les NFTs possédés ET les listings
+                refetchTokens()
+                refetchListings()
+                setRefreshKey(prev => prev + 1)  // ✅ Force re-render
+              }} 
+              className="btn btn-primary"
+            >
+              🔄 Refresh
+            </button>
+          </div>
         </div>
 
         {/* Stats */}
@@ -93,7 +120,15 @@ export default function MyNFTsPage() {
         <div>
           <h2 className="section-title">Your Collection</h2>
           
-          {userData.nftBalance === 0 ? (
+          {isLoadingTokens ? (
+            <div className="empty-state">
+              <p className="empty-state-icon">⏳</p>
+              <h3 className="empty-state-title">Loading NFTs...</h3>
+              <p className="empty-state-message">
+                Fetching your NFTs from the blockchain
+              </p>
+            </div>
+          ) : tokenIds.length === 0 ? (
             <div className="empty-state">
               <p className="empty-state-icon">🎨</p>
               <h3 className="empty-state-title">No NFTs Yet</h3>
@@ -102,13 +137,14 @@ export default function MyNFTsPage() {
               </p>
             </div>
           ) : (
-            <div className="collection-info">
-              <p className="collection-info-text">
-                You own {userData.nftBalance} NFT{userData.nftBalance !== 1 ? 's' : ''} from the ModularNFT collection.
-              </p>
-              <p className="collection-info-note">
-                NFT listing interface coming soon in Phase 3C final updates!
-              </p>
+            <div className="responsive-grid">
+              {tokenIds.map((tokenId) => (
+                <NFTOwnerCard 
+                  key={`${tokenId}-${refreshKey}`} 
+                  tokenId={tokenId}
+                  onActionSuccess={() => setRefreshKey(prev => prev + 1)}  // ✅ Callback pour forcer refresh
+                />
+              ))}
             </div>
           )}
         </div>

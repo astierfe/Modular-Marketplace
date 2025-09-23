@@ -1,11 +1,11 @@
-// lib/contracts/index.ts - Configuration combinée des contrats
+// lib/contracts/index.ts - Configuration combinée des contrats (FIXED CASING)
 import { type Address } from 'viem'
 import { MODULAR_NFT_ABI, getContractAddress as getNFTAddress } from './ModularNFT'
 import { 
   MARKETPLACE_ABI, 
   getMarketplaceAddress,
   MARKETPLACE_CONFIG 
-} from './Marketplace'
+} from './marketplace' // ✅ FIXED: lowercase
 
 // Types de chaînes supportées
 export type SupportedChainId = 31337 | 11155111 | 1

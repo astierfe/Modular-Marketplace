@@ -1,13 +1,19 @@
-// components/marketplace/NFTCard.tsx - Refactorisé
+// components/marketplace/NFTCard.tsx - Refactorisé + Bundle Optimized
 'use client'
 
 import { useState } from 'react'
 import { useAccount } from 'wagmi'
+import dynamic from 'next/dynamic'
 import { useListingById } from '@/hooks'
 import { formatAddress } from '@/lib/contracts'
-import { BuyModal } from './BuyModal'
 import { DelistButton } from './DelistButton'
 import './marketplace-components.css'
+
+// ✅ Dynamic import for BuyModal (only loaded when needed)
+const BuyModal = dynamic(
+  () => import('./BuyModal').then(mod => ({ default: mod.BuyModal })),
+  { ssr: false }
+)
 
 interface NFTCardProps {
   tokenId: number
@@ -95,7 +101,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
         </div>
       </div>
 
-      {/* Buy Modal */}
+      {/* Buy Modal - Lazy loaded */}
       {showBuyModal && (
         <BuyModal
           tokenId={tokenId}

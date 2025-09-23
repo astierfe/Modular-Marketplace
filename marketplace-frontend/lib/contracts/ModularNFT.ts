@@ -99,6 +99,14 @@ export const MODULAR_NFT_ABI = [
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  // ✨ AJOUT FONCTION TOKENS OF OWNER
+  {
+    "inputs": [{"name": "owner", "type": "address"}],
+    "name": "tokensOfOwner",
+    "outputs": [{"name": "", "type": "uint256[]"}],
+    "stateMutability": "view",
+    "type": "function"
   }
 ] as const
 
