@@ -8,6 +8,7 @@ import { useListings, useUserMarketplaceData } from '@/hooks'
 import { MarketplaceHeader } from '../../components/marketplace/MarketplaceHeader'
 import '../../styles/globals.css'
 import './marketplace.css'
+import { metadataUtils } from '@/lib/utils/metadataUtils'
 
 // ✅ Dynamic imports for heavy components (lazy loading)
 const NFTGrid = dynamic(
@@ -46,6 +47,7 @@ export default function MarketplacePage() {
   const listingIds = (activeListingIds || []) as readonly bigint[]
   
   const userData = useUserMarketplaceData()
+
 
   useEffect(() => {
     setMounted(true)

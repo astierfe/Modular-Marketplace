@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
   },
 
   // ✅ Image optimization for IPFS
+  // ✅ Image optimization for IPFS
   images: {
     remotePatterns: [
       {
@@ -27,6 +28,22 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: '**.ipfs.dweb.link',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gateway.pinata.cloud',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloudflare-ipfs.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dweb.link',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
       },
     ],
   },

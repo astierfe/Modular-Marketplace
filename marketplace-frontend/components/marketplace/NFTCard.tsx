@@ -1,15 +1,17 @@
-// components/marketplace/NFTCard.tsx - Refactorisé + Bundle Optimized
+// components/marketplace/NFTCard.tsx - Version avec vraies métadonnées
 'use client'
 
 import { useState } from 'react'
 import { useAccount } from 'wagmi'
 import dynamic from 'next/dynamic'
 import { useListingById } from '@/hooks'
+import { useNFTMetadata } from '@/hooks/useNFTMetadata'  // ✅ AJOUT
 import { formatAddress } from '@/lib/contracts'
 import { DelistButton } from './DelistButton'
+import { IPFSImage } from '@/components/ui/IPFSImage'  // ✅ AJOUT
 import './marketplace-components.css'
 
-// ✅ Dynamic import for BuyModal (only loaded when needed)
+// Dynamic import for BuyModal (only loaded when needed)
 const BuyModal = dynamic(
   () => import('./BuyModal').then(mod => ({ default: mod.BuyModal })),
   { ssr: false }
@@ -22,9 +24,10 @@ interface NFTCardProps {
 export function NFTCard({ tokenId }: NFTCardProps) {
   const { address } = useAccount()
   const { listing, isLoading } = useListingById(tokenId)
+  const { nftData, loadingMetadata } = useNFTMetadata(tokenId)  // ✅ AJOUT
   const [showBuyModal, setShowBuyModal] = useState(false)
 
-  if (isLoading) {
+  if (isLoading || loadingMetadata) {
     return (
       <div className="skeleton-card skeleton">
         <div className="skeleton-image" />
@@ -41,20 +44,32 @@ export function NFTCard({ tokenId }: NFTCardProps) {
   }
 
   const isOwner = address?.toLowerCase() === listing.seller.toLowerCase()
+  
+  // ✅ Utiliser les vraies métadonnées ou fallback
+  const nftName = nftData?.metadata?.name || `ModularNFT #${tokenId}`
+  const nftImage = nftData?.metadata?.image
 
   return (
     <>
       <div className="nft-card">
         {/* Image */}
         <div className="nft-card-image">
-          <span className="nft-card-image-emoji">🎨</span>
+          {nftImage ? (
+            <IPFSImage 
+              src={nftImage}
+              alt={nftName}
+              fill
+            />
+          ) : (
+            <span className="nft-card-image-emoji">🎨</span>
+          )}
           <div className="nft-card-badge">#{tokenId}</div>
         </div>
 
         {/* Info */}
         <div className="nft-card-content">
-          {/* Title */}
-          <h3 className="nft-card-title">ModularNFT #{tokenId}</h3>
+          {/* Title - ✅ VRAIES MÉTADONNÉES */}
+          <h3 className="nft-card-title">{nftName}</h3>
 
           {/* Price */}
           <div className="nft-card-price-row">
