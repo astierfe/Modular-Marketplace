@@ -19,9 +19,9 @@ export function TransactionOverlay({ isVisible }: TransactionOverlayProps) {
           Transaction in progress...
         </p>
         
-        {/* Sous-message */}
+        {/* Sous-message avec timeout */}
         <p className="transaction-submessage">
-          Please wait and do not close this window
+          Please wait and do not close this window (timeout in 60s)
         </p>
       </div>
 

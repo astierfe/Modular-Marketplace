@@ -73,9 +73,6 @@ export default function MyListingsPage() {
                 NFTs you have listed for sale
               </p>
             </div>
-            <button onClick={refetch} className="btn btn-primary">
-              🔄 Refresh
-            </button>
           </div>
         </div>
 

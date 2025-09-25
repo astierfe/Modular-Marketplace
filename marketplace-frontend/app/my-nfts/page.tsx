@@ -60,18 +60,7 @@ export default function MyNFTsPage() {
               <p className="page-subtitle">
                 NFTs owned by {address?.slice(0, 6)}...{address?.slice(-4)}
               </p>
-            </div>
-            <button 
-              onClick={() => {
-                // Refresh les NFTs possédés ET les listings
-                refetchTokens()
-                refetchListings()
-                setRefreshKey(prev => prev + 1)  // ✅ Force re-render
-              }} 
-              className="btn btn-primary"
-            >
-              🔄 Refresh
-            </button>
+            </div>            
           </div>
         </div>
 

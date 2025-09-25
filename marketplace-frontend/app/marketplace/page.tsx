@@ -65,25 +65,6 @@ export default function MarketplacePage() {
       <MarketplaceHeader />
 
       <div className="page-content">
-        
-        {/* ✅ NOTICE ÉTAPE 3 */}
-        <div className="card" style={{ 
-          border: '2px dashed #8b5cf6', 
-          backgroundColor: '#f5f3ff',
-          padding: '1rem',
-          marginBottom: '2rem'
-        }}>
-          <h3 style={{ color: '#7c3aed', marginBottom: '0.5rem' }}>
-            🧪 TEST ÉTAPE 3 - Overlay Global Activé
-          </h3>
-          <p style={{ 
-            fontSize: '0.875rem', 
-            color: '#6d28d9', 
-            margin: 0
-          }}>
-            L'overlay est maintenant global ! Va sur "My Listings" → clique "Delist NFT" → L'overlay apparaîtra sur toute l'app
-          </p>
-        </div>
 
         {/* Hero Section */}
         <div className="marketplace-hero">
@@ -136,9 +117,6 @@ export default function MarketplacePage() {
             <h2 className="page-header-title">
               {isLoading ? 'Loading...' : `${listingIds.length} NFTs Available`}
             </h2>
-            <button onClick={refetch} className="btn btn-primary">
-              🔄 Refresh
-            </button>
           </div>
 
           {/* NFT Grid - Lazy loaded */}
