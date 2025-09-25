@@ -115,3 +115,7 @@ deployments/
 
 # Local blockchain data
 ganache-db/
+
+#claude
+AUDIT_REPORT.md
+.claude/

@@ -1,4 +1,4 @@
-// components/marketplace/DelistButton.tsx - Synchronisé avec états blockchain
+// components/marketplace/DelistButton.tsx - Avec gestion Cancel MetaMask
 'use client'
 
 import { useMarketplace } from '@/hooks'
@@ -13,10 +13,18 @@ interface DelistButtonProps {
 
 export function DelistButton({ tokenId, onSuccess }: DelistButtonProps) {
   const queryClient = useQueryClient()
-  const { delistItem, isPending, isConfirming, isConfirmed } = useMarketplace()
+  const { delistItem, isPending, isConfirming, isConfirmed, error } = useMarketplace()
   
-  // ✅ ÉTAPE 3 - Contexte transaction global pour overlay
+  // ✅ Contexte transaction global pour overlay
   const { startTransaction, endTransaction } = useTransaction()
+
+  // ✅ CORRECTION : Gestion des erreurs (Cancel MetaMask)
+  useEffect(() => {
+    if (error) {
+      console.log('❌ Erreur détectée (Cancel MetaMask ou autre):', error.message)
+      endTransaction() // Fermer l'overlay immédiatement
+    }
+  }, [error, endTransaction])
 
   // ✅ SYNCHRONISATION avec les vrais états blockchain
   useEffect(() => {
@@ -43,12 +51,11 @@ export function DelistButton({ tokenId, onSuccess }: DelistButtonProps) {
       await delistItem(tokenId)
       
       // Note: Ne pas appeler endTransaction() ici !
-      // L'overlay sera fermé par l'useEffect quand isConfirmed = true
+      // L'overlay sera fermé par l'useEffect approprié
       
     } catch (error) {
-      console.error('❌ Delist transaction failed:', error)
-      // En cas d'erreur, fermer l'overlay immédiatement
-      endTransaction()
+      console.error('❌ Delist transaction failed in component:', error)
+      // L'useEffect ci-dessus gèrera la fermeture via l'état error
     }
   }
 
@@ -63,6 +70,23 @@ export function DelistButton({ tokenId, onSuccess }: DelistButtonProps) {
       }, 2000)
     }
   }, [isConfirmed, queryClient, onSuccess])
+
+  // ✅ GESTION ÉTAT ERROR
+  if (error) {
+    return (
+      <button
+        onClick={handleDelistWithOverlay}
+        className="btn"
+        style={{
+          width: '100%',
+          backgroundColor: '#DC2626',
+          color: 'white'
+        }}
+      >
+        Delist NFT
+      </button>
+    )
+  }
 
   if (isConfirmed) {
     return (
@@ -79,7 +103,7 @@ export function DelistButton({ tokenId, onSuccess }: DelistButtonProps) {
   return (
     <button
       onClick={handleDelistWithOverlay}
-      disabled={isPending || isConfirming} // ✅ Désactiver pendant TOUT le processus
+      disabled={isPending || isConfirming}
       className="btn"
       style={{
         width: '100%',
