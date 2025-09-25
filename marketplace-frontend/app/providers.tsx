@@ -1,4 +1,4 @@
-// app/providers.tsx - Configuration Web3 (CORRIGÉE)
+// app/providers.tsx - Configuration Web3 + Transaction Provider (Étape 3)
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -8,6 +8,7 @@ import { sepolia, mainnet } from 'wagmi/chains'
 import { http } from 'wagmi'
 import '@rainbow-me/rainbowkit/styles.css'
 import { ReactNode } from 'react'
+import { TransactionProvider } from '@/contexts/TransactionContext' // ✅ ÉTAPE 3
 
 // Configuration Wagmi v2 pour Marketplace
 const config = getDefaultConfig({
@@ -44,7 +45,10 @@ export function Providers({ children }: ProvidersProps) {
           initialChain={sepolia}
           showRecentTransactions={true}
         >
-          {children}
+          {/* ✅ ÉTAPE 3 - Transaction Provider global */}
+          <TransactionProvider>
+            {children}
+          </TransactionProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

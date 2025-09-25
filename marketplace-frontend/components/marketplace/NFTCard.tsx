@@ -1,14 +1,14 @@
-// components/marketplace/NFTCard.tsx - Version avec vraies métadonnées
+// components/marketplace/NFTCard.tsx - Version corrigée (Buy Now original)
 'use client'
 
 import { useState } from 'react'
 import { useAccount } from 'wagmi'
 import dynamic from 'next/dynamic'
 import { useListingById } from '@/hooks'
-import { useNFTMetadata } from '@/hooks/useNFTMetadata'  // ✅ AJOUT
+import { useNFTMetadata } from '@/hooks/useNFTMetadata'
 import { formatAddress } from '@/lib/contracts'
 import { DelistButton } from './DelistButton'
-import { IPFSImage } from '@/components/ui/IPFSImage'  // ✅ AJOUT
+import { IPFSImage } from '@/components/ui/IPFSImage'
 import './marketplace-components.css'
 
 // Dynamic import for BuyModal (only loaded when needed)
@@ -24,7 +24,7 @@ interface NFTCardProps {
 export function NFTCard({ tokenId }: NFTCardProps) {
   const { address } = useAccount()
   const { listing, isLoading } = useListingById(tokenId)
-  const { nftData, loadingMetadata } = useNFTMetadata(tokenId)  // ✅ AJOUT
+  const { nftData, loadingMetadata } = useNFTMetadata(tokenId)
   const [showBuyModal, setShowBuyModal] = useState(false)
 
   if (isLoading || loadingMetadata) {
@@ -45,7 +45,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
 
   const isOwner = address?.toLowerCase() === listing.seller.toLowerCase()
   
-  // ✅ Utiliser les vraies métadonnées ou fallback
+  // Utiliser les vraies métadonnées ou fallback
   const nftName = nftData?.metadata?.name || `ModularNFT #${tokenId}`
   const nftImage = nftData?.metadata?.image
 
@@ -68,7 +68,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
 
         {/* Info */}
         <div className="nft-card-content">
-          {/* Title - ✅ VRAIES MÉTADONNÉES */}
+          {/* Title */}
           <h3 className="nft-card-title">{nftName}</h3>
 
           {/* Price */}
@@ -101,7 +101,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
             </div>
           </div>
 
-          {/* Action Button */}
+          {/* Action Button - ✅ RÉTABLI COMPORTEMENT ORIGINAL */}
           {isOwner ? (
             <DelistButton tokenId={tokenId} />
           ) : (
@@ -116,7 +116,7 @@ export function NFTCard({ tokenId }: NFTCardProps) {
         </div>
       </div>
 
-      {/* Buy Modal - Lazy loaded */}
+      {/* Buy Modal - Comportement original */}
       {showBuyModal && (
         <BuyModal
           tokenId={tokenId}

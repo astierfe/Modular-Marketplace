@@ -1,6 +1,7 @@
-// app/layout.tsx - Layout principal avec Web3
+// app/layout.tsx - Layout principal avec overlay global
 import '../styles/globals.css'
 import { Providers } from './providers'
+import { GlobalTransactionOverlay } from '@/components/ui/GlobalTransactionOverlay' // ✅ NOUVEAU
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -21,6 +22,8 @@ export default function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <Providers>
           {children}
+          {/* ✅ OVERLAY GLOBAL - Visible sur toutes les pages */}
+          <GlobalTransactionOverlay />
         </Providers>
       </body>
     </html>

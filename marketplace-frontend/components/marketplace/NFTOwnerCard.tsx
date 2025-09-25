@@ -1,19 +1,22 @@
-// components/marketplace/NFTOwnerCard.tsx - Version finale avec auto-refresh
+// components/marketplace/NFTOwnerCard.tsx - Version corrigée avec images IPFS
 'use client'
 
 import { useState } from 'react'
 import { useListingById } from '@/hooks'
+import { useNFTMetadata } from '@/hooks/useNFTMetadata' // ✅ AJOUT pour images
 import { ListingModal } from './ListingModal'
 import { DelistButton } from './DelistButton'
+import { IPFSImage } from '@/components/ui/IPFSImage' // ✅ AJOUT pour images
 import './marketplace-components.css'
 
 interface NFTOwnerCardProps {
   tokenId: number
-  onActionSuccess?: () => void  // ✅ AJOUT callback pour refresh
+  onActionSuccess?: () => void
 }
 
 export function NFTOwnerCard({ tokenId, onActionSuccess }: NFTOwnerCardProps) {
   const { listing, isLoading, refetch } = useListingById(tokenId)
+  const { nftData, loadingMetadata } = useNFTMetadata(tokenId) // ✅ AJOUT pour images
   const [showListingModal, setShowListingModal] = useState(false)
 
   // Fonction pour fermer le modal et forcer le refresh
@@ -22,11 +25,11 @@ export function NFTOwnerCard({ tokenId, onActionSuccess }: NFTOwnerCardProps) {
     // Force le refresh immédiat des données du NFT
     setTimeout(() => {
       refetch()
-      onActionSuccess?.()  // ✅ Notifier la page parente
+      onActionSuccess?.()
     }, 500)
   }
 
-  if (isLoading) {
+  if (isLoading || loadingMetadata) { // ✅ AJOUT loadingMetadata
     return (
       <div className="skeleton-card skeleton">
         <div className="skeleton-image" />
@@ -41,12 +44,24 @@ export function NFTOwnerCard({ tokenId, onActionSuccess }: NFTOwnerCardProps) {
   const isListed = listing?.active || false
   const price = listing?.priceETH || '0'
 
+  // ✅ AJOUT : Utiliser les vraies métadonnées ou fallback
+  const nftName = nftData?.metadata?.name || `ModularNFT #${tokenId}`
+  const nftImage = nftData?.metadata?.image
+
   return (
     <>
       <div className="nft-card">
-        {/* Image */}
+        {/* Image - ✅ CORRIGÉ avec IPFSImage */}
         <div className="nft-card-image">
-          <span className="nft-card-image-emoji">🎨</span>
+          {nftImage ? (
+            <IPFSImage 
+              src={nftImage}
+              alt={nftName}
+              fill
+            />
+          ) : (
+            <span className="nft-card-image-emoji">🎨</span>
+          )}
           <div className="nft-card-badge">#{tokenId}</div>
           
           {/* Badge statut */}
@@ -57,7 +72,7 @@ export function NFTOwnerCard({ tokenId, onActionSuccess }: NFTOwnerCardProps) {
                 top: '0.5rem', 
                 right: '0.5rem', 
                 left: 'auto',
-                background: 'rgba(34, 197, 94, 0.8)' // Vert pour "Listed"
+                background: 'rgba(34, 197, 94, 0.8)'
               }}
             >
               Listed
@@ -67,8 +82,8 @@ export function NFTOwnerCard({ tokenId, onActionSuccess }: NFTOwnerCardProps) {
 
         {/* Info */}
         <div className="nft-card-content">
-          {/* Title */}
-          <h3 className="nft-card-title">ModularNFT #{tokenId}</h3>
+          {/* Title - ✅ CORRIGÉ avec vraies métadonnées */}
+          <h3 className="nft-card-title">{nftName}</h3>
 
           {/* Statut */}
           <div className="nft-card-info-row">
@@ -118,13 +133,13 @@ export function NFTOwnerCard({ tokenId, onActionSuccess }: NFTOwnerCardProps) {
                 className="btn btn-primary"
                 style={{ width: '100%' }}
               >
-                📝 Update Price
+                🏷️ Update Price
               </button>
               <DelistButton 
                 tokenId={tokenId}
                 onSuccess={() => {
                   refetch()
-                  onActionSuccess?.()  // ✅ Notifier après delist
+                  onActionSuccess?.()
                 }}
               />
             </div>

@@ -1,4 +1,4 @@
-// app/marketplace/page.tsx - Refactorisé + Bundle Optimized + Auto-refetch
+// app/marketplace/page.tsx - Version Étape 3 avec overlay global
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -8,9 +8,8 @@ import { useListings, useUserMarketplaceData } from '@/hooks'
 import { MarketplaceHeader } from '../../components/marketplace/MarketplaceHeader'
 import '../../styles/globals.css'
 import './marketplace.css'
-import { metadataUtils } from '@/lib/utils/metadataUtils'
 
-// ✅ Dynamic imports for heavy components (lazy loading)
+// Dynamic imports for heavy components (lazy loading)
 const NFTGrid = dynamic(
   () => import('../../components/marketplace/NFTGrid').then(mod => ({ default: mod.NFTGrid })),
   {
@@ -48,12 +47,11 @@ export default function MarketplacePage() {
   
   const userData = useUserMarketplaceData()
 
-
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // ✅ AJOUT : Refetch automatique quand on arrive sur la page
+  // Refetch automatique quand on arrive sur la page
   useEffect(() => {
     if (mounted && isConnected) {
       refetch()
@@ -68,6 +66,25 @@ export default function MarketplacePage() {
 
       <div className="page-content">
         
+        {/* ✅ NOTICE ÉTAPE 3 */}
+        <div className="card" style={{ 
+          border: '2px dashed #8b5cf6', 
+          backgroundColor: '#f5f3ff',
+          padding: '1rem',
+          marginBottom: '2rem'
+        }}>
+          <h3 style={{ color: '#7c3aed', marginBottom: '0.5rem' }}>
+            🧪 TEST ÉTAPE 3 - Overlay Global Activé
+          </h3>
+          <p style={{ 
+            fontSize: '0.875rem', 
+            color: '#6d28d9', 
+            margin: 0
+          }}>
+            L'overlay est maintenant global ! Va sur "My Listings" → clique "Delist NFT" → L'overlay apparaîtra sur toute l'app
+          </p>
+        </div>
+
         {/* Hero Section */}
         <div className="marketplace-hero">
           <h1 className="gradient-title">ModularNFT Marketplace</h1>
