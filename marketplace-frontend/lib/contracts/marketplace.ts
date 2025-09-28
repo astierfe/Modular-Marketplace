@@ -211,7 +211,7 @@ export const MARKETPLACE_ABI = [
 // Adresses des contrats par réseau
 export const MARKETPLACE_ADDRESSES = {
   // Sepolia Testnet (DÉPLOYÉ)
-  11155111: '0x7AbcF4d2B55a5FE578A42B4d3C0be2F4820d26eC' as Address,
+  11155111: '0x2AE08980761CB189DA6ca1f89fffD0C6DAD65a8F' as Address,
   
   // Anvil Local (pour tests)
   31337: '0x' as Address, // À déployer localement

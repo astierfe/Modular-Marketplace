@@ -28,7 +28,7 @@ const NFTCard = dynamic(
 
 export default function MyListingsPage() {
   const [mounted, setMounted] = useState(false)
-  const { isConnected, address } = useAccount()
+  const { isConnected} = useAccount()
   const { userListingIds = [], refetch } = useListings()  // ✅ AJOUT refetch
   const userData = useUserMarketplaceData()
 

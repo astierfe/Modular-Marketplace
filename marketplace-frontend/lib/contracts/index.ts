@@ -3,7 +3,6 @@ import { type Address } from 'viem'
 import { MODULAR_NFT_ABI, getContractAddress as getNFTAddress } from './ModularNFT'
 import { 
   MARKETPLACE_ABI, 
-  getMarketplaceAddress,
   MARKETPLACE_CONFIG 
 } from './marketplace' // ✅ FIXED: lowercase
 
@@ -38,7 +37,7 @@ export const NETWORK_CONFIGS: Record<SupportedChainId, NetworkConfig> = {
   11155111: {
     chainId: 11155111,
     name: 'Sepolia',
-    nftContract: process.env.NEXT_PUBLIC_MODULAR_NFT_SEPOLIA as Address || '0x72Bd342Ec921BFcfDaeb429403cc1F0Da43fD312' as Address,
+    nftContract: process.env.NEXT_PUBLIC_MODULAR_NFT_SEPOLIA as Address || '0xd34F288Fa68b657926989EF286477E9f3C87A825' as Address,
     marketplaceContract: process.env.NEXT_PUBLIC_MARKETPLACE_SEPOLIA as Address || '0x7AbcF4d2B55a5FE578A42B4d3C0be2F4820d26eC' as Address,
     rpcUrl: process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL || '',
     explorerUrl: 'https://sepolia.etherscan.io',

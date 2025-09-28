@@ -36,7 +36,7 @@ export const metadataUtils = {
     
     // Cas 1: URL HTTP malformée avec /ipfs/ipfs://
     if (ipfsUri.includes('/ipfs/ipfs://')) {
-      let result = ipfsUri.replace('/ipfs/ipfs://', '/ipfs/')
+      const result = ipfsUri.replace('/ipfs/ipfs://', '/ipfs/')
       console.log(`🧹 Fixed malformed URL: ${ipfsUri} → ${result}`)
       return result
     }
@@ -71,7 +71,6 @@ export const metadataUtils = {
    */
   fetchMetadata: async (
     tokenURI: string, 
-    maxRetries: number = 3
   ): Promise<NFTMetadata | null> => {
     if (!tokenURI) {
       console.warn('Empty tokenURI provided to fetchMetadata')
@@ -81,7 +80,7 @@ export const metadataUtils = {
     console.log('🔍 Fetching metadata from:', tokenURI)
     
     // Nettoyer l'URL malformée
-    let cleanUrl = tokenURI.replace('/ipfs/ipfs://', '/ipfs/')
+    const cleanUrl = tokenURI.replace('/ipfs/ipfs://', '/ipfs/')
     console.log('🧹 Cleaned URL:', cleanUrl)
     
     try {
