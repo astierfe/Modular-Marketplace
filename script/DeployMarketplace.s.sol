@@ -102,9 +102,9 @@ contract DeployMarketplace is Script {
      */
     function getSepoliaConfig() public pure returns (NetworkConfig memory) {
         return NetworkConfig({
-            modularNFT: 0x72Bd342Ec921BFcfDaeb429403cc1F0Da43fD312, // Adresse existante
+            modularNFT: 0xd34F288Fa68b657926989EF286477E9f3C87A825, // Adresse existante
             marketplaceFee: DEFAULT_MARKETPLACE_FEE,
-            feeRecipient: 0x1234567890123456789012345678901234567890, // À remplacer par vraie adresse
+            feeRecipient: 0xf350B91b403ced3c6E68d34C13eBdaaE3bbd4E01, // À remplacer par vraie adresse
             networkName: "Sepolia (Testnet)"
         });
     }

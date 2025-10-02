@@ -4,6 +4,7 @@ import { Providers } from './providers'
 import { GlobalTransactionOverlay } from '@/components/ui/GlobalTransactionOverlay' // ✅ NOUVEAU
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Footer } from '../components/ui/Footer' // Import du Footer
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +25,9 @@ export default function RootLayout({
           {children}
           {/* ✅ OVERLAY GLOBAL - Visible sur toutes les pages */}
           <GlobalTransactionOverlay />
-        </Providers>
+
+        <Footer />
+        </Providers>        
       </body>
     </html>
   )

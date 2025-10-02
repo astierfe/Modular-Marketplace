@@ -392,3 +392,140 @@
 .dark .not-connected-message {
   color: #9CA3AF;
 }
+
+/* ============================================
+   FOOTER COMPONENT
+   ============================================ */
+
+.footer {
+background: white;
+border-top: 1px solid #E5E7EB;
+margin-top: auto;
+}
+
+.dark .footer {
+background: #1F2937;
+border-top-color: #374151;
+}
+
+.footer-container {
+max-width: 1280px;
+margin: 0 auto;
+padding: 0 1rem;
+}
+
+.footer-content {
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 4rem;
+flex-wrap: wrap;
+gap: 1rem;
+}
+
+.footer-left {
+display: flex;
+align-items: center;
+}
+
+.footer-text {
+font-size: 0.875rem;
+color: #6B7280;
+}
+
+.dark .footer-text {
+color: #9CA3AF;
+}
+
+.footer-right {
+display: flex;
+align-items: center;
+}
+
+.footer-support-btn {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+padding: 0.5rem 1rem;
+border: 1px solid #D1D5DB;
+border-radius: 0.5rem;
+background: transparent;
+color: #374151;
+font-size: 0.875rem;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.dark .footer-support-btn {
+border-color: #4B5563;
+color: #D1D5DB;
+}
+
+.footer-support-btn:hover {
+background: #F3F4F6;
+border-color: #9CA3AF;
+}
+
+.dark .footer-support-btn:hover {
+background: #374151;
+border-color: #6B7280;
+}
+
+.footer-support-icon {
+font-size: 1rem;
+}
+
+.footer-support-text {
+font-weight: 500;
+}
+
+@media (max-width: 640px) {
+.footer-content {
+justify-content: space-between;
+}
+.footer-left {
+font-size: 0.75rem;
+}
+.footer-support-btn {
+padding: 0.375rem 0.75rem;
+font-size: 0.75rem;
+}
+}
+
+/* ============================================
+   SUPPORT MODAL & HEADER SUPPORT
+   ============================================ */
+
+.support-modal { max-width: 32rem; width: 100%; }
+
+.support-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.form-label { font-size: 0.875rem; font-weight: 600; color: #374151; }
+.dark .form-label { color: #D1D5DB; }
+
+.form-input { padding: 0.75rem; border: 1px solid #D1D5DB; border-radius: 0.5rem; font-size: 0.875rem; outline: none; transition: border-color 0.2s; }
+.form-input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+.form-input--disabled { background-color: #F3F4F6; color: #6B7280; cursor: not-allowed; }
+.dark .form-input { background: #374151; border-color: #4B5563; color: #D1D5DB; }
+.dark .form-input:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+.dark .form-input--disabled { background-color: #1F2937; color: #6B7280; }
+
+.form-textarea { padding: 0.75rem; border: 1px solid #D1D5DB; border-radius: 0.5rem; font-size: 0.875rem; outline: none; transition: border-color 0.2s; resize: vertical; min-height: 120px; font-family: inherit; }
+.form-textarea:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+.dark .form-textarea { background: #374151; border-color: #4B5563; color: #D1D5DB; }
+.dark .form-textarea:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+
+.form-helper { font-size: 0.75rem; color: #6B7280; text-align: right; }
+.dark .form-helper { color: #9CA3AF; }
+
+.header-support-btn { display: flex; align-items: center; gap: 0.25rem; padding: 0.375rem 0.75rem; background: transparent; border: 1px solid #E5E7EB; border-radius: 0.375rem; color: #6B7280; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; }
+.header-support-btn:hover { background: #F3F4F6; color: #374151; }
+.dark .header-support-btn { border-color: #4B5563; color: #9CA3AF; }
+.dark .header-support-btn:hover { background: #374151; color: #D1D5DB; }
+
+.network-indicator { display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: #6B7280; }
+.dark .network-indicator { color: #9CA3AF; }
+.network-dot { width: 0.5rem; height: 0.5rem; background: #10B981; border-radius: 50%; }
+.network-name { font-weight: 500; }

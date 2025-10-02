@@ -11,7 +11,7 @@ export const CONTRACT_ADDRESSES = {
   // Contrat ModularNFT existant (ne pas modifier)
   modularNFT: {
     anvil: "0x5FbDB2315678afecb367f032d93F642f64180aa3" as Address,
-    sepolia: "0x72Bd342Ec921BFcfDaeb429403cc1F0Da43fD312" as Address,
+    sepolia: "0xd34F288Fa68b657926989EF286477E9f3C87A825" as Address,
     mainnet: "0x..." as Address, // À définir plus tard
   },
   
