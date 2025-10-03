@@ -44,7 +44,7 @@ return (
 {sent ? (
 <div className="alert-success">
 <p className="alert-success-text">✅ Message sent successfully!</p>
-<p className="text-secondary text-center" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>We'll get back to you soon</p>
+<p className="text-secondary text-center" style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>We&apos;ll get back to you soon</p>
 </div>
 ) : (
 <form onSubmit={handleSubmit} className="support-form">
