@@ -1,4 +1,4 @@
-// lib/contracts/ModularNFT.ts
+// lib/contracts/ModularNFT.ts - Version 2.0 avec getTokenInfo
 export const MODULAR_NFT_ABI = [
   // ERC721 Standard
   {
@@ -100,11 +100,27 @@ export const MODULAR_NFT_ABI = [
     "stateMutability": "view",
     "type": "function"
   },
-  // ✨ AJOUT FONCTION TOKENS OF OWNER
   {
     "inputs": [{"name": "owner", "type": "address"}],
     "name": "tokensOfOwner",
     "outputs": [{"name": "", "type": "uint256[]"}],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  
+  // ✅ NOUVEAU : getTokenInfo pour récupérer les royalties
+  {
+    "inputs": [{"name": "tokenId", "type": "uint256"}],
+    "name": "getTokenInfo",
+    "outputs": [{
+      "type": "tuple",
+      "components": [
+        {"name": "owner", "type": "address"},
+        {"name": "creator", "type": "address"},
+        {"name": "tokenURI", "type": "string"},
+        {"name": "royaltyPercentage", "type": "uint256"} // ✅ Le dernier champ (/100)
+      ]
+    }],
     "stateMutability": "view",
     "type": "function"
   }
@@ -112,7 +128,7 @@ export const MODULAR_NFT_ABI = [
 
 export const CONTRACT_ADDRESSES = {
   31337: '0x5FbDB2315678afecb367f032d93F642f64180aa3' as `0x${string}`,
-  11155111: '0xd34F288Fa68b657926989EF286477E9f3C87A825' as `0x${string}`,
+  11155111: '0x72Bd342Ec921BFcfDaeb429403cc1F0Da43fD312' as `0x${string}`,
   1: '0x' as `0x${string}`,
 } as const
 

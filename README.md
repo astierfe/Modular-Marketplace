@@ -1,13 +1,18 @@
-# 🎯 Modular Marketplace
+# ModularNFT Marketplace
 
-**Decentralized P2P NFT marketplace with modern web interface**
+A decentralized peer-to-peer marketplace built exclusively for trading NFTs from the **ModularNFT** smart contract collection.
 
-## 📋 Overview
+## Overview
 
-The **Modular Marketplace** is a complete NFT trading platform consisting of two main components:
+This marketplace enables users to buy and sell ModularNFT tokens with full transparency and security. Key features include:
 
-- **Solidity Smart Contract**: Secure decentralized marketplace for P2P NFT trading
-- **Next.js Frontend**: Modern and responsive user interface
+- **Trade ModularNFT Collection**: Buy and sell NFTs minted exclusively from the ModularNFT contract
+- **IPFS Image Display**: View NFT images stored on Pinata directly in the marketplace
+- **Flexible Listing**: Set custom prices for your NFTs and manage your listings
+- **Instant Withdrawals**: Collect your sales proceeds anytime
+- **Built-in Royalties**: Creator royalties and marketplace fees are automatically calculated and distributed as configured by the ModularNFT contract administrator
+
+Built with Next.js 15, Wagmi v2, and Solidity, this marketplace provides a seamless trading experience on Sepolia testnet.
 
 ## 🏗️ Architecture
 
@@ -53,7 +58,7 @@ The **Modular Marketplace** is a complete NFT trading platform consisting of two
 - Tailwind CSS 4
 - ESLint for code quality
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - [Foundry](https://book.getfoundry.sh/getting-started/installation)
@@ -128,12 +133,6 @@ Modular-Marketplace/
 - **Access Control**: Owner-only administrative functions
 - **Input Validation**: Custom error handling and checks
 - **Safe Transfers**: Secure ETH and NFT transfers
-
-## 📝 Project Status
-
-- ✅ **Smart Contract**: Complete and secure
-- 🚧 **Frontend**: Basic structure, Web3 interface in development
-- 🎯 **Integration**: Blockchain/frontend connection in progress
 
 
 ### Foundry Tools
